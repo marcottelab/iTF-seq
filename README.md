@@ -99,10 +99,14 @@ Explanation about the 2nd column ("detected_iTF") of the metadata files.
 > For example, for "all genes", we used genes that are commonly detected for all time points, excluding our 80 TFs of interest. You can use other gene sets related to your study. The format is a text file having one gene name per line.
 
 ```bash
-# This R script prints "scale.data" after applying SCTransform. Also, it requires *outs/filtered_feature_bc_matrix*, *dX.metadata.g1k_mt10_umi10k.umi3.txt*(metadata made from previous steps)
+# This R script prints "scale.data" after applying SCTransform.
+# Also, it requires outs/filtered_feature_bc_matrix, dX.metadata.g1k_mt10_umi10k.umi3.txt(metadata made from previous steps)
 Rscript print_expression_values.SCT.dayX.R 
 # Outputs: dayX/TF.tsv and dayX/NO_iTF_TAGS.tsv
-
+```
+### Calculation
+Repeat the following code block for each time point.
+```bash
 # Principal component analysis
 cd dayX
 ./PCA_prep.py
@@ -113,10 +117,12 @@ cd dayX
 ./cal_z.PCA.py > ../dayX.PCA.z-values.txt
 # If you need each cell's score, use cal_z.PCA.with_CB.py
 ./cal_z.PCA.with_CB.py > ../dayX.PCA.z-values.CB.txt
+```
+```bash
+# cd .. (Not in each day's folder)
 ./add_z-values_to_metadata.py
 # outputs: dX.metadata.g1k_mt10_umi10k.umi3.PCA_z-values.txt
 ```
-
 
 ## References
 [^1]: Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. 2009. BLAST+: architecture and applications. BMC Bioinformatics 10: 421. https://doi.org/10.1186/1471-2105-10-421.
