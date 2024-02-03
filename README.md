@@ -2,7 +2,7 @@
 Transcriptional regulation controls cellular functions through interactions between transcription factors (TFs) and their chromosomal targets. However, understanding the fate conversion potential of multiple TFs in an inducible manner remains limited. To address this, iTF-seq was introduced as a method for identifying individual TFs that can alter cell fate towards specific lineages at a single-cell level. iTF-seq enables time-course monitoring of transcriptome changes, and with biotinylated individual TFs, it provides a multi-omics approach to understanding the mechanisms behind TF-mediated cell fate changes. Our iTF-seq study in mouse embryonic stem cells identified multiple TFs that trigger rapid transcriptome changes indicative of differentiation within a day of induction. Moreover, cells expressing these potent TFs often show a slower cell cycle and increased cell death. Further analysis using bioChIP-seq revealed that Gcm1 and Otx2 act as pioneer factors and activators by increasing gene accessibility and activating the expression of lineage specification genes during cell fate conversion. iTF-seq has utility in both mapping cell fate conversion and understanding cell fate conversion mechanisms.
 
 # iTF-seq pipeline
-This is the overall explanation of the iTF-seq pipeline, which includes Bash, Python, and R scripts. We will focus on newly generated scripts rather than how to run already well-known programs. I used the expression "dayX" to describe a code line that was repeatedly used for day 1, day 3, and day 5 data.
+This is the overall explanation of the iTF-seq pipeline, which includes Bash, Python, and R scripts. We uploaded those scripts to the "scripts" directory in this repository. We will focus on newly generated scripts rather than how to run already well-known programs. I used the expression "dayX" to describe a code line that was repeatedly used for day 1, day 3, and day 5 data.
 
 ## Validation of iTF tag sequences
 >[!Important]
@@ -161,7 +161,11 @@ Rscript integrate.SCT.R
            int.SCT.metadata.tsv,
            integrated_plot.pdf
 ```
-
+If you need UMAP focusing on specific TFs, you may refer to the following code block.
+```bash
+./print_meta_for_some_TFs.py > metadata_for_some_TFs.tsv
+./someTFs.R
+```
 
 ## References
 [^1]: Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. 2009. BLAST+: architecture and applications. BMC Bioinformatics 10: 421. https://doi.org/10.1186/1471-2105-10-421.
