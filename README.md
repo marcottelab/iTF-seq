@@ -102,7 +102,7 @@ Explanation about the 2nd column ("detected_iTF") of the metadata files.
 # This R script prints "scale.data" after applying SCTransform.
 # Also, it requires outs/filtered_feature_bc_matrix, dX.metadata.g1k_mt10_umi10k.umi3.txt(metadata made from previous steps)
 Rscript print_expression_values.SCT.dayX.R 
-# Outputs: dayX/TF.tsv and dayX/NO_iTF_TAGS.tsv
+# Outputs: dayX/TF.tsv files and dayX/NO_iTF_TAGS.tsv
 ```
 ### Calculation
 Repeat the following code block for each time point.
