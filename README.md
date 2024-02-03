@@ -58,9 +58,26 @@ grep Dlx4_forward day?.blast_out.txt | cut -f4 | sort | uniq
 # outputs: dX.cb_gene_UMIcount.including_no_align.revised.txt,
            dX.cb_gene_UMIcount.matched_align_only.revised.txt
 ```
-
-
-
+### Selection of UMI thresholds and preparation of metadata file for Seurat
+```bash
+Rscript convert_to_matrix.umi.R
+# outputs: dX.cb_gene_UMIcount.mat.txt
+Rscript print_QCed_cell_list.R
+# outputs: dX.g1k_mt10_umi10k.tsv # These are all QC-passed cells regardless of iTF tags.
+./trim_matrix.py dX.g1k_mt10_umi10k.tsv dX.cb_gene_UMIcount.mat.txt
+# outputs: dX.cb_gene_UMIcount.mat.QCed_CBs.txt
+```
+```bash
+# Testing UMI threshold 1 - 5. (equal to or more than)
+mkdir QCed
+./cmds.py # This script runs the following three scripts.
+  a. how_many_TFs_in_a_cell.py
+     outputs: QCed/dX.CB_num_of_gene.UMI_thX.txt
+  b. num_of_cells_having_N_kinds_of_TFs.py
+     outputs: QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt
+  c. print_num_of_singlets_for_each_iTF.py
+     outputs: dX.num_of_singlets_for_each_iTF.UMI_thX.txt
+```
 
 
 
