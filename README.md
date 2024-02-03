@@ -5,7 +5,7 @@ Transcriptional regulation controls cellular functions through interactions betw
 This is the overall explanation of the iTF-seq pipeline, which includes Bash, Python, and R scripts. I will focus on newly generated scripts rather than how to run already well-known programs.
 
 ## Validation of iTF tag sequences
-[!Important]
+>[!Important]
 >This is a prerequisite step.
 You need to check whether your tag sequences can be found from reference sequences.
 ```bash
