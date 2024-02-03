@@ -93,8 +93,29 @@ Explanation about the 2nd column ("detected_iTF") of the metadata files.
 * "ZERO_BY_THR": cells without iTF because of the UMI threshold.
 * "NOT USED": The others, like poor-quality cells, cells having multiple iTFs. Literally not used for analyses.
 
+## Calculation of the differentiation index
+> [!important]
+> ### Make a text file of genes of interest
+> For example, for "all genes", we used genes that are commonly detected for all time points, excluding our 80 TFs of interest. You can use other gene sets related to your study. The format is a text file having one gene name per line.
 
+```bash
+# This R script prints "scale.data" after applying SCTransform. Also, it requires *outs/filtered_feature_bc_matrix*, *dX.metadata.g1k_mt10_umi10k.umi3.txt*(metadata made from previous steps)
+Rscript print_expression_values.SCT.dayX.R 
+# Outputs: dayX/TF.tsv and dayX/NO_iTF_TAGS.tsv
 
+# Principal component analysis
+cd dayX
+./PCA_prep.py
+# outputs: PCA/iTF-expressing_cells_and_ctrl.common_genes.sorted.tsv
+           PCA/CBs_per_iTF.tsv
+./PCA.py
+# output: PCA/PCA_result.tsv
+./cal_z.PCA.py > ../dayX.PCA.z-values.txt
+# If you need each cell's score, use cal_z.PCA.with_CB.py
+./cal_z.PCA.with_CB.py > ../dayX.PCA.z-values.CB.txt
+./add_z-values_to_metadata.py
+# outputs: dX.metadata.g1k_mt10_umi10k.umi3.PCA_z-values.txt
+```
 
 
 ## References
