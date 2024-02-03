@@ -7,13 +7,12 @@ This is the overall explanation of the iTF-seq pipeline, which includes Bash, Py
 ## Validation of iTF tag sequences
 >[!Important]
 >This is a prerequisite step.
-  
+
 You need to check whether your tag sequences can be found from reference sequences. We used NCBI BLAST+[^1].
 ```bash
 # Example codes
 makeblastdb -in genome.fa -parse_seqids -dbtype nucl
 blastn -db genome.fa -query tags.fa -out blast_result.txt -perc_identity 80 -outfmt 6 -num_threads 4
-
 gffread genes.gtf -g genome.fa -w transcripts.fa
 makeblastdb -in transcripts.fa -parse_seqids -dbtype nucl
 blastn -db transcripts.fa -query tags.fa -out blast_result.transcripts.txt -outfmt 6 -num_threads 4
@@ -35,8 +34,30 @@ samtools view --tag CB dayX.collated.bam -b | samtools view --tag UB -b -o dayX.
 samtools fasta dayX.reads_with_CB_UB.bam -T CB,UB,GX,GN,xf --threads 4
 ./attach_tags_to_name.py dayX.reads_with_CB_UB.fasta > dayX.reads_with_CB_UB.v2.fasta
 ```
+### Run BLASTN against iTF tags
+```bash
+./make_iTF_tag_fasta.py > iTF_tags.fasta
+makeblastdb -in iTF_tags.fasta -dbtype nucl -parse_seqids
+blastn -db iTF_tags.fasta -query dayX.reads_with_CB_UB.v2.fasta -num_threads 4 -perc_identity 85 -evalue 1e-7 -max_target_seqs 5 -outfmt 6 -out dayX.blast_out.txt
+```
+### Remove problematic transcripts from BLASTN results
+```bash
+# Double-check for the Dlx4 forward tag
+grep Dlx4_forward day?.blast_out.txt | cut -f4 | sort | uniq 
+./remove_Dlx4_shorter_than_30bp.py dayX.blast_out.txt > dayX.blast_out.Dlx4.txt
 
+# Print transcripts that have multiple iTF tags
+./check_transcripts.py dayX.blast_out.Dlx4.txt > dayX.blast_out.transcripts_with_multi_iTFs.txt
 
+# Compare the alignment by Cell Ranger and by our tags.
+# If a transcript has equal to or more than half of its reads aligned to two different genes by the two methods, print it.
+./print_blacklist_transcripts_by_qc_score.py dayX.blast_out.Dlx4.txt > dayX.blacklist.diff_align.txt
+./organize_blast_output.py
+# outputs: dX.cb_gene_UMI.txt
+./count_umi.revised.py
+# outputs: dX.cb_gene_UMIcount.including_no_align.revised.txt,
+           dX.cb_gene_UMIcount.matched_align_only.revised.txt
+```
 
 
 
