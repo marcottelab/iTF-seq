@@ -164,7 +164,7 @@ Rscript integrate.SCT.R
 If you need UMAP focusing on specific TFs, you may refer to the following code block.
 ```bash
 ./print_meta_for_some_TFs.py > metadata_for_some_TFs.tsv
-./someTFs.R
+Rscript someTFs.visulazation.R
 ```
 
 ## References
