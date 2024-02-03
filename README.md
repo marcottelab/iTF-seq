@@ -95,7 +95,7 @@ Explanation about the 2nd column ("detected_iTF") of the metadata files.
 
 ## Calculation of the differentiation index
 > [!important]
-> ### Make a text file of genes of interest
+> ### Make a text file with your genes of interest
 > For example, for "all genes", we used genes that are commonly detected for all time points, excluding our 80 TFs of interest. You can use other gene sets related to your study. The format is a text file having one gene name per line.
 
 ```bash
