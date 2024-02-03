@@ -66,8 +66,7 @@ Rscript print_QCed_cell_list.R
 # outputs: dX.g1k_mt10_umi10k.tsv # These are all QC-passed cells regardless of iTF tags.
 ./trim_matrix.py dX.g1k_mt10_umi10k.tsv dX.cb_gene_UMIcount.mat.txt
 # outputs: dX.cb_gene_UMIcount.mat.QCed_CBs.txt
-```
-```bash
+
 # Testing UMI threshold 1 - 5. (equal to or more than)
 mkdir QCed
 ./cmds.py # This script runs the following three scripts.
@@ -77,7 +76,24 @@ mkdir QCed
      outputs: QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt
   c. print_num_of_singlets_for_each_iTF.py
      outputs: dX.num_of_singlets_for_each_iTF.UMI_thX.txt
+
+# Print cell barcodes of control cells
+./find_QCpassed_no_iTF_cells.py 
+# outputs: dX.g1k_mt10_umi10k.without_iTF_tags.txt
 ```
+With *QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt*, you can determine the optimal UMI threshold. In our case, we draw *number of cells* x *number of genes in cells* x *UMI threshold* chart.
+```bash
+./make_a_table.py 3 > num_of_cells_with_one_iTF.UMI_th3.txt
+./print_metadata_for_seurat.py # This file requires cells_by_CR.dayX.tsv, simple metadata files from Seurat Object before the cell quality control steps.
+# outputs: dX.metadata.g1k_mt10_umi10k.umi3.txt
+```
+Explanation about the 2nd column ("detected_iTF") of the metadata files.
+* Name of TFs: iTF cells with that TF
+* "NO_iTF_TAGS": cells without any iTF tags (We chose these as controls).
+* "ZERO_BY_THR": cells without iTF because of the UMI threshold.
+* "NOT USED": The others, like poor-quality cells, cells having multiple iTFs. Literally not used for analyses.
+
+
 
 
 
