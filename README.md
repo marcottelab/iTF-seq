@@ -123,9 +123,49 @@ cd dayX
 ./add_z-values_to_metadata.py
 # outputs: dX.metadata.g1k_mt10_umi10k.umi3.PCA_z-values.txt
 ```
+### Drawing boxplots
+```bash
+# Before running the following Python scripts,
+# Sort dayX.PCA.z-values.txt based on the median of z-values and save as dayX.PCA.z-values.for_figures.txt
+# Then...
+./boxplots.py
+# outputs: dayX.z-value.boxplot.pdf
+```
+### Predict potent iTFs by comparing their differentiation indexes to controls.
+```bash
+./mwu_test_with_cell_diff_index.py > mwu_test_results.less.all_TF.txt
+./print_iTF_median-diff-index_MWU-less-adj-p.py > iTF_median-diff-index_MWU-less-adjp.tsv
+```
+You may use [Morpheus](https://software.broadinstitute.org/morpheus)[^5] to conduct clusterings or make a similarity matrix.
+
+## Visualization (UMAP plots)
+```bash
+Rscript umap_plots.dayX.R
+# This code requires
+    a. filtered_feature_bc_matrix from Cell Ranger
+    b. metadata files from previous steps
+# outputs: seurat_data.dayX.rds,
+           overview UMAP plot
+           UMAP plot for expression of iTF (endo + ecto expression),
+           UMAP plot for the location of iTF cells (by tags),
+```
+### Integrated version of multiple time points
+This is an example code. You would need to edit this script for your study.
+```bash
+Rscript integrate.SCT.R
+# This code also requires
+    a. filtered_feature_bc_matrix from Seurat
+    b. metadata files from 3_Detecting_cells_having_single_iTF_and_controls
+# outputs: int.SCT.after_integration.rds,
+           int.SCT.after_clustering.rds,
+           int.SCT.metadata.tsv,
+           integrated_plot.pdf
+```
+
 
 ## References
 [^1]: Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. 2009. BLAST+: architecture and applications. BMC Bioinformatics 10: 421. https://doi.org/10.1186/1471-2105-10-421.
 [^2]: Zheng GXY, Terry JM, Belgrader P, Ryvkin P, Bent ZW, Wilson R, Ziraldo SB, Wheeler TD, McDermott GP, Zhu J, et al. 2017. Massively parallel digital transcriptional profiling of single cells. Nat Commun 8: 14049. https://doi.org/10.1038/ncomms14049.
 [^3]: Hao Y, Hao S, Andersen-Nissen E, Mauck WM, Zheng S, Butler A, Lee MJ, Wilk AJ, Darby C, Zager M, et al. 2021. Integrated analysis of multimodal single-cell data. Cell 184: 3573-3587.e29. https://www.sciencedirect.com/science/article/pii/S0092867421005833.
 [^4]: Danecek P, Bonfield JK, Liddle J, Marshall J, Ohan V, Pollard MO, Whitwham A, Keane T, McCarthy SA, Davies RM, et al. 2021. Twelve years of SAMtools and BCFtools. Gigascience 10: giab008. https://doi.org/10.1093/gigascience/giab008.
+[^5]: Morpheus, https://software.broadinstitute.org/morpheus
