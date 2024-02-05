@@ -133,7 +133,7 @@ cd dayX
 ./add_z-values_to_metadata.py
 # outputs: dX.metadata.g1k_mt10_umi10k.umi3.PCA_z-values.txt
 ```
-### Drawing boxplots
+### Drawing a boxplot showing the distribution of the differentiation index
 ```bash
 # Before running the following Python scripts,
 # Sort dayX.PCA.z-values.txt based on the median of z-values and save as dayX.PCA.z-values.for_figures.txt
@@ -148,7 +148,7 @@ cd dayX
 ```
 You may use [Morpheus](https://software.broadinstitute.org/morpheus)[^5] to conduct clusterings or make a similarity matrix.
 
-## 4. Visualization (UMAP plots)
+## 4. Visualization of cell clusters (UMAP plots)
 ```bash
 Rscript umap_plots.dayX.R
 # This code requires
