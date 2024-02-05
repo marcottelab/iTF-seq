@@ -91,7 +91,7 @@ mkdir QCed
 ./find_QCpassed_no_iTF_cells.py 
 # outputs: dX.g1k_mt10_umi10k.without_iTF_tags.txt
 ```
-With *QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt*, you can determine the optimal UMI threshold. In our case, we draw *number of cells* x *number of genes in cells* x *UMI threshold* chart. In our case, as the number of cells with a single iTF peaked in the minimum UMI 3 threshold, this threshold was adopted to designate iTF cells. 
+With *QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt*, you can determine the optimal UMI threshold. In our case, we drew *number of cells* x *number of genes in cells* x *UMI threshold* chart. As the number of cells with a single iTF peaked in the minimum UMI 3 threshold, this threshold was adopted to designate iTF cells. 
 ```bash
 ./make_a_table.py 3 > num_of_cells_with_one_iTF.UMI_th3.txt
 ./print_metadata_for_seurat.py # This file requires cells_by_CR.dayX.tsv, simple metadata files from Seurat Object before the cell quality control steps.
