@@ -48,9 +48,10 @@ makeblastdb -in iTF_tags.fasta -dbtype nucl -parse_seqids
 blastn -db iTF_tags.fasta -query dayX.reads_with_CB_UB.v2.fasta -num_threads 4 -perc_identity 85 -evalue 1e-7 -max_target_seqs 5 -outfmt 6 -out dayX.blast_out.txt
 ```
 ### Remove problematic transcripts from BLASTN results
-Collected reads with the tags were organized to the transcript level. The alignment results based on our tags were also compared to the alignment by Cell Ranger. When more than half of a transcript's reads aligned to two different genes by the two methods, that transcript was excluded. We did not exclude the cases where a gene was annotated as "NA" by Cell Ranger but aligned with our tags and used the alignment results for further analysis.
+Collected reads with the tags were organized to the transcript level. The alignment results based on our tags were also compared to the alignment by Cell Ranger. When more than half of a transcript's reads aligned to two different genes by the two methods, that transcript was excluded.
 ```bash
 # Double-check for the Dlx4 forward tag
+# Dlx4 forward tag was 30 bp long, different from all other 28 bp tags.
 grep Dlx4_forward day?.blast_out.txt | cut -f4 | sort | uniq 
 ./remove_Dlx4_shorter_than_30bp.py dayX.blast_out.txt > dayX.blast_out.Dlx4.txt
 
