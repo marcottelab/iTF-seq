@@ -29,7 +29,7 @@ blastn -db transcripts.fa -query iTF_tags.fa -out blast_result.transcripts.txt -
 ### Mapping of scRNA-seq reads (alignment)
 We ran 10x Genomics Cell Ranger Count[^2] and used the *outs/filtered_feature_bc_matrix* directory for the following steps. If you use other aligners, create your own Seurat[^3] Objects with similar feature-barcode matrices.
 ### Cell Quality Control
-We used the Seurat R package to check nFeature_RNA(The number of unique genes detected in each cell), nCount_RNA(the total number of molecules detected within a cell), and percent.mt(The percentage of reads that map to the mitochondrial genome).  
+We used the Seurat R package to check the number of unique genes detected in each cell(nFeature_RNA), the total number of molecules detected within a cell(nCount_RNA), and the percentage of reads that map to the mitochondrial genome(percent.mt).  
 Our final criteria: nFeature_RNA > 1000 & percent.mt < 10 & nCount_RNA > 10000
 
 ## 2. Detection of cells overexpressing single iTF and control cells
