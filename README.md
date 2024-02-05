@@ -10,19 +10,24 @@ This is the overall explanation of the iTF-seq pipeline, which includes shell co
 >[!Important]
 >This is a prerequisite step.
 
-You need to check whether your tag sequences can be found from reference sequences. We used NCBI BLAST+[^1].
+You need to check whether your tag sequences can be found from reference sequences. We made a FASTA file with our tag sequences and ran NCBI BLAST+[^1] agaisnt references.
 ```bash
 # Example codes
+# Make a FASTA file with your tag sequences.
+./make_iTF_tag_fasta.py > iTF_tags.fasta
+
 makeblastdb -in genome.fa -parse_seqids -dbtype nucl
-blastn -db genome.fa -query tags.fa -out blast_result.txt -perc_identity 80 -outfmt 6 -num_threads 4
+blastn -db genome.fa -query iTF_tags.fa -out blast_result.txt -perc_identity 80 -outfmt 6 -num_threads 4
+# You may adjust perc_ientity, outfmt, and num_threads based on your needs.
+
 gffread genes.gtf -g genome.fa -w transcripts.fa
 makeblastdb -in transcripts.fa -parse_seqids -dbtype nucl
-blastn -db transcripts.fa -query tags.fa -out blast_result.transcripts.txt -outfmt 6 -num_threads 4
+blastn -db transcripts.fa -query iTF_tags.fa -out blast_result.transcripts.txt -outfmt 6 -num_threads 4
 ```
 
-## Mapping of scRNA-seq reads and cell quality control
-### Mapping (alignment)
-We used Cell Ranger Count[^2]. Among the outputs, we used the *outs/filtered_feature_bc_matrix* directory for the next step.
+## Mapping and cell quality control
+### Mapping of scRNA-seq reads (alignment)
+We used 10x Genomics Cell Ranger Count[^2]. Among the outputs, we used the *outs/filtered_feature_bc_matrix* directory for the next step.
 ### Cell Quality Control
 We used the Seurat R package[^3] to check nFeature_RNA, nCount_RNA, and percent.mt.  
 Our final criteria: nFeature_RNA > 1000 & percent.mt < 10 & nCount_RNA > 10000
@@ -38,7 +43,6 @@ samtools fasta dayX.reads_with_CB_UB.bam -T CB,UB,GX,GN,xf --threads 4
 ```
 ### Run BLASTN against iTF tags
 ```bash
-./make_iTF_tag_fasta.py > iTF_tags.fasta
 makeblastdb -in iTF_tags.fasta -dbtype nucl -parse_seqids
 blastn -db iTF_tags.fasta -query dayX.reads_with_CB_UB.v2.fasta -num_threads 4 -perc_identity 85 -evalue 1e-7 -max_target_seqs 5 -outfmt 6 -out dayX.blast_out.txt
 ```
