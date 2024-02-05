@@ -153,7 +153,7 @@ You may use [Morpheus](https://software.broadinstitute.org/morpheus)[^5] to cond
 Rscript umap_plots.dayX.R
 # This code requires
     a. filtered_feature_bc_matrix from Cell Ranger
-    b. metadata files from previous steps
+    b. metadata files from the previous steps
 # outputs: seurat_data.dayX.rds,
            overview UMAP plot
            UMAP plot for expression of iTF (endo + ecto expression),
@@ -165,7 +165,7 @@ This is an example code. You would need to edit this script for your study.
 Rscript integrate.SCT.R
 # This code also requires
     a. filtered_feature_bc_matrix from Seurat
-    b. metadata files from 3_Detecting_cells_having_single_iTF_and_controls
+    b. metadata files from the previous steps
 # outputs: int.SCT.after_integration.rds,
            int.SCT.after_clustering.rds,
            int.SCT.metadata.tsv,
