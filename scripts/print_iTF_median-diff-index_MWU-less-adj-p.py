@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Description: Print [iTF, median of differentiation index, one-sided MWU test adjusted p-value] table for the paper.
+#Description: Print the [iTF, median of differentiation index, one-sided MWU test adjusted p-value] table.
 #Usage: [THIS SCRIPT]
 
 for day in ["1", "3", "5"]:
