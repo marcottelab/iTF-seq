@@ -10,7 +10,7 @@ This is the overall explanation of the iTF-seq pipeline, which includes shell co
 >[!Important]
 >This is a prerequisite step.
 
-You need to check whether your tag sequences can be found from reference sequences. We made a FASTA file with our tag sequences and ran NCBI BLAST+[^1] agaisnt references.
+You need to check whether your tag sequences can be found from reference sequences. We made a FASTA file with our tag sequences and ran NCBI BLAST+[^1] against references.
 ```bash
 # Example codes
 # Make a FASTA file with your tag sequences.
@@ -41,13 +41,13 @@ samtools view --tag CB dayX.collated.bam -b | samtools view --tag UB -b -o dayX.
 samtools fasta dayX.reads_with_CB_UB.bam -T CB,UB,GX,GN,xf --threads 4
 ./attach_tags_to_name.py dayX.reads_with_CB_UB.fasta > dayX.reads_with_CB_UB.v2.fasta
 ```
-### Run BLASTN against iTF tags
+### Running BLASTN against iTF tags
 BLAST was performed to detect reads aligned with the tags.
 ```bash
 makeblastdb -in iTF_tags.fasta -dbtype nucl -parse_seqids
 blastn -db iTF_tags.fasta -query dayX.reads_with_CB_UB.v2.fasta -num_threads 4 -perc_identity 85 -evalue 1e-7 -max_target_seqs 5 -outfmt 6 -out dayX.blast_out.txt
 ```
-### Remove problematic transcripts from BLASTN results
+### Removal of problematic transcripts from BLASTN results
 Collected reads with the tags were organized to the transcript level. The alignment results based on our tags were also compared to the alignment by Cell Ranger. When more than half of a transcript's reads aligned to two different genes by the two methods, that transcript was excluded.
 ```bash
 # Double-check for the Dlx4 forward tag
@@ -141,7 +141,7 @@ cd dayX
 ./boxplots.py
 # outputs: dayX.z-value.boxplot.pdf
 ```
-### Predict potent iTFs by comparing their differentiation indexes to controls.
+### Prediction of potent iTFs by comparing their differentiation indexes to controls.
 ```bash
 ./mwu_test_with_cell_diff_index.py > mwu_test_results.less.all_TF.txt
 ./print_iTF_median-diff-index_MWU-less-adj-p.py > iTF_median-diff-index_MWU-less-adjp.tsv
@@ -171,7 +171,7 @@ Rscript integrate.SCT.R
            int.SCT.metadata.tsv,
            integrated_plot.pdf
 ```
-If you need UMAP focusing on specific TFs, you may refer to the following code block.
+If you need UMAP plots focusing on specific TFs, you may refer to the following code block.
 ```bash
 ./print_meta_for_some_TFs.py > metadata_for_some_TFs.tsv
 Rscript someTFs.visulazation.R
