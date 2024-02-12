@@ -65,7 +65,7 @@ grep Dlx4_forward day?.blast_out.txt | cut -f4 | sort | uniq
 # outputs: dX.cb_gene_UMI.txt
 ./count_umi.revised.py
 # outputs: dX.cb_gene_UMIcount.including_no_align.revised.txt,
-           dX.cb_gene_UMIcount.matched_align_only.revised.txt
+#          dX.cb_gene_UMIcount.matched_align_only.revised.txt
 ```
 ### Selection of UMI thresholds and preparation of metadata file for Seurat
 To reduce false positive events in detecting iTFs, we exploited UMIs. We applied different thresholds for the minimum number of UMI (1-5) and counted cells with single iTF detection. The control cells were identified by excluding cells expressing any iTFs with a minimum UMI threshold of 1.
@@ -80,12 +80,12 @@ Rscript print_QCed_cell_list.R
 # Testing UMI threshold 1 - 5. (equal to or more than)
 mkdir QCed
 ./cmds.py # This script runs the following three scripts.
-  a. how_many_TFs_in_a_cell.py
-     outputs: QCed/dX.CB_num_of_gene.UMI_thX.txt
-  b. num_of_cells_having_N_kinds_of_TFs.py
-     outputs: QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt
-  c. print_num_of_singlets_for_each_iTF.py
-     outputs: dX.num_of_singlets_for_each_iTF.UMI_thX.txt
+#         a. how_many_TFs_in_a_cell.py
+#            outputs: QCed/dX.CB_num_of_gene.UMI_thX.txt
+#         b. num_of_cells_having_N_kinds_of_TFs.py
+#            outputs: QCed/dX.num_of_cells_having_N_kinds_of_TFs.UMI_thX.txt
+#         c. print_num_of_singlets_for_each_iTF.py
+#            outputs: dX.num_of_singlets_for_each_iTF.UMI_thX.txt
 
 # Print cell barcodes of control cells
 ./find_QCpassed_no_iTF_cells.py 
@@ -121,7 +121,7 @@ Repeat the following code block for each time point.
 cd dayX
 ./PCA_prep.py
 # outputs: PCA/iTF-expressing_cells_and_ctrl.common_genes.sorted.tsv
-           PCA/CBs_per_iTF.tsv
+#          PCA/CBs_per_iTF.tsv
 ./PCA.py
 # output: PCA/PCA_result.tsv
 ./cal_z.PCA.py > ../dayX.PCA.z-values.txt
@@ -152,24 +152,24 @@ You may use [Morpheus](https://software.broadinstitute.org/morpheus)[^5] to cond
 ```bash
 Rscript umap_plots.dayX.R
 # This code requires
-    a. filtered_feature_bc_matrix from Cell Ranger
-    b. metadata files from the previous steps
+#    a. filtered_feature_bc_matrix from Cell Ranger
+#    b. metadata files from the previous steps
 # outputs: seurat_data.dayX.rds,
-           overview UMAP plot
-           UMAP plot for expression of iTF (endo + ecto expression),
-           UMAP plot for the location of iTF cells (by tags),
+#          overview UMAP plot
+#          UMAP plot for expression of iTF (endo + ecto expression),
+#          UMAP plot for the location of iTF cells (by tags),
 ```
 ### Integrated version of multiple time points
 This is an example code. You would need to edit this script for your study.
 ```bash
 Rscript integrate.SCT.R
 # This code also requires
-    a. filtered_feature_bc_matrix from Seurat
-    b. metadata files from the previous steps
+#    a. filtered_feature_bc_matrix from Seurat
+#    b. metadata files from the previous steps
 # outputs: int.SCT.after_integration.rds,
-           int.SCT.after_clustering.rds,
-           int.SCT.metadata.tsv,
-           integrated_plot.pdf
+#          int.SCT.after_clustering.rds,
+#          int.SCT.metadata.tsv,
+#          integrated_plot.pdf
 ```
 If you need UMAP plots focusing on specific TFs, you may refer to the following code block.
 ```bash
